@@ -1,2 +1,2 @@
 # GAProjects
-Projects for ha
+Projects for GA
