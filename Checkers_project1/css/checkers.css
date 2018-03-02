@@ -1,0 +1,9 @@
+*{border: 1px solid gold;}
+
+.container{width: 95%;}
+.square{
+  display:inline-block;
+  border: 1px solid green;
+  height: 100px;
+  width:12%;
+}
