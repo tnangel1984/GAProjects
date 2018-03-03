@@ -12,17 +12,17 @@
   margin-left:.25%;
 }
 
-.odd >.odd{
+.oddRow >.odd{
   background-color: red;
 }
-.odd >.even{
+.oddRow >.even{
   background-color: black;
 }
 
-.even>.odd{
+.evenRow>.odd{
   background-color: black;
 }
 
-.even>.even{
+.evenRow>.even{
   background-color: red;
 }
