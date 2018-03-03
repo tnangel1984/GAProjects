@@ -26,7 +26,7 @@ const selectDestination = (currentPosition)=>{
         //CHECK if 1st allowables are Blank
         // IF SO MOVE TO Selected Destination
 
-        //IF NOT check if  
+        //IF NOT check if
 
 }
 
@@ -49,7 +49,9 @@ $(()=>{
 
 
       //APPENDS TO PLAYER DIV BUT ORDER MATTERS!!
-      const $player1 =$('container').prepend($('<div>').addClass('player1'));
+  const $player1 =$('<div>').addClass('player1');
+  const $player2 =$('<div>').addClass('player2');
+
 // ====VARIABLES HERE====
       let squareClass="";
       let rowClass2="";
@@ -61,11 +63,14 @@ $(()=>{
           rowClass2=getEvenOdd(rowCount,rowClass2);
           $('container').append($('<div>').addClass('row').addClass(rowClass2+'Row').attr('id','row'+rowCount));
   // Possibly move to function??
+
+
           if( rowCount<=3){
-            $('.player1').append($('#row'+rowCount));
+            $($player1).append($('#row'+rowCount));
+            $('container').prepend($player1);
           }else  if(rowCount>5){
-            $('.player2').append($('#row'+rowCount));
-            $('container').append($('.player2'));
+            $($player2).append($('#row'+rowCount));
+            $('container').append($player2);
           }
               // Creates squares 1-8 per row, used the row count * 8 to get to next row count + square count in row to get to square counts.
                 for(j=1; j<=8; j++){
