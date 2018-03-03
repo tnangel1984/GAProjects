@@ -17,8 +17,8 @@ const getEvenOdd = (countEvaluated, outputClass)=>{
       }  // determines squareClass2 = odd or even
 }
 
-const selectPiece = ()=>{
-        //GET CURRENT POSITION
+const selectPiece = (event)=>{
+        console.log($('event.CurrentTarget'));
 }
 
 const selectDestination = (currentPosition)=>{
@@ -38,11 +38,9 @@ const ordainMove = ()=>{
 
 
 
-// ====ON LOAD & ON CLICK EVENTS HERE====
+// ====ON LOAD EVENTS HERE====
 $(()=>{
-        $('img').on('click', selectPiece);
-              $('img').on('click', selectDestination);
-//Destination must be Nested... reassign img listener...
+
 
 // creates a container,  creates player divs, appends to body
       $('body').append($('<container>'));
@@ -76,21 +74,50 @@ $(()=>{
                 for(j=1; j<=8; j++){
                     let squareCount = (rowCount-1)*8+j;
                     squareClass2= getEvenOdd(squareCount, squareClass2);
-                    $('#row'+rowCount).append($('<div>').addClass('square').addClass(squareClass2).attr('id',squareCount).text(squareCount));
+                    $('#row'+rowCount)
+                    .append($('<div>')
+                    .addClass('square')
+                    .addClass(squareClass2)
+                    .attr('id',squareCount)
+                    .text(squareCount));
                 }   // creates squares 1-8 in each row ,
         }
         //
 
-// ===PLAYER SET UP
+// ===PLAYER STAGING SET UP
+
+
 $('.player1').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/wht.jpg'));
 $('.player1').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/wht.jpg'));
 
 $('.player2').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/blk.jpg'));
 $('.player2').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/blk.jpg'));
 
+// Creating a variable to separate playable/non-playablesquares...
+//
+//PLAYABLE SQUARES =  $('.oddRow')).find('div.even')
+//                    $('.evenRow')).find('div.odd')
+//
+//NON-PLAYABLE SQUARES = $('.oddRow')).find('div.odd')
+//                       $('.evenRow')).find('div.even')
+//
+//
+// $('.player2').find($('.oddRow')).find('div.even')
+//ON CLICK EVENTS HERE
 
+$('.square').on('click', selectPiece);
+  // $('img').on('click', selectDestination);
+//Destination must be Nested... reassign img listener...
 
+// Two options, place event listener on ALL squares then run allowables
+// Place event listerns on SOME squares... then run allowables
+//if THE listener is on all squares you can make alerts for red squared moves...
+// This would require the same logic to limit squares in the first place so mght as well build that logic..
+//...time to create variables for playable spaces.
 
+//The ONLY way to do this is via objects or arrays...
+
+// May Likely result in a change to the player piece staging portion of the code.
 })
 
 
@@ -103,6 +130,12 @@ $('.player2').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 
     //13. BUILD Move Piece Function. (is this separate from a jump function?)
     //14. BUILD REMOVE Piece Function.
     //
+    //*** special considerations for JUMPS! - Jumps ONLY have ONE option for moving NOT TWO! - Maybe best to run the BLANKS TEST 1ST! To eliminate any possibility of moving at all or move on to the LEAST possible options possibility of  jumping.
+    //special considerations for boundaries! - any square along the sides of the board ONLY has ONE option for moving, NOT tow
+
+    // GOAL - Condition FLOW should be structured to progress as follows:
+    //   From  zero possibilities for moves to ONE possibility moves to TWO possibility moves.
+   //        ...maybe run border check algorithm first... and separate? as opposed to having it built in to the normal evaluation function...
 
 // *** FIX CSS Squares move when window shrinks.
 

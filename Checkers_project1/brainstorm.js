@@ -126,6 +126,30 @@
 //        1a. NO VALUES OVER board squares.length allowed!!
 //    2-8. all the same.
 //
+//====COMPUTER GAMEPLAY====
+//
+// How does the computer make a move?
+//        It needs to know where its pieces are AND wh It needs to know where the opponents pieces are...
+//        ... with out having to evaluate every piece on the board each time... Needs to be an ARRAY of pieces
+//       It needs to know which pieces it can move... without testing everypiece every time...
+// It needs Arrays of its pieces, opponents pieces, and it's playable pieces (still contingent on square evaluations)!
+//
+// It needs to be a good opponent, to it needs to know how to prioritize!
+//      it needs to look for all jump opportunities first... (and/or KING opportunities). and double jumps over jumps!
+//      then look for and elminate moves that avoid it getting jumped second, but still take them if its the only option
+//      **Then it needs to evaluate the next steps and prioritize those... i.e. double jump vs getting jumped. or a double jump that leads to getting jumped.
+//      Then it needs to "choose" from what's left of the available options via a random number generator
+// ***What does a computer need to prioritize??? Are nested case/if statements enough??? OR does there need to be some sort of numeric ranking system???
+//
+//
+// Why is tP necessary to  necessary?... to distinguish the types of functions they call... if any.
+//
+//  To Communicate to User ...NON- Playable squares could return nothing or return an alert (sound alert) with instructions.
+//   Alternatively this could be used to distinguish which elements get an event listener in the first place....
+//   Gameplay impact. When selecting pieces currently the onClick activates and passes currentlocation values into variables for EVERY SQUARE - This only needs to happen on playable squares... NO a playbale square could still not have a piece on it SO it only needs to happen on playablesquares that HAVE pieces in them.... Soooo need a DYNAMIC ARRAY or object that tracks pices??? or just run an individual square check every time... either way something has to be checked the square or the array so which is more efficient...?
+
+//Is there any reason the program needs to know where every piece is on the board????
+//YES FOR  vs. COMPUTER GAME PLAY!!! which would be done via random number generation..
 
 //
 //once generated, use loop and div Ids to alternate colors
