@@ -17,7 +17,30 @@ const getEvenOdd = (countEvaluated, outputClass)=>{
       }  // determines squareClass2 = odd or even
 }
 
+
+const startGame =() =>{
+      //simply need something to indicate that the game as began so turns can be counted.
+}
+const whichTurn = () =>{
+  //count the number of turns taken
+  //on first turn run a random number generator to determine which player goes first.
+  //alternate every turn there after TOGGLE True/FALSE
+  //NEEDS PASS THE PLAYER INTO THE SELECT PIECE FUNCTION!
+  // !!!Returns playerArray
+}
+
+const validateSelection = (playerArray,event)=>{
+  if($.inArray($(event.currentTarget),$player2)>=0){
+    return  $(event.currentTarget)
+  }else{
+    alert('This is not Your piece.')
+  }
+  // selectPiece();
+}
+
 const selectPiece = (event)=>{
+        //somewhere between here and whichTurn you want to limit/ terminate program if the piece seleceted doesn't belong to the player.
+        //This function should ONLY run once the selection has been validated.
         console.log($('event.CurrentTarget'));
 }
 
@@ -62,11 +85,11 @@ $(()=>{
           $('container').append($('<div>').addClass('row').addClass(rowClass2+'Row').attr('id','row'+rowCount));
 // Possibly move to function??
           if( rowCount<=3){
-            $($player1Div).append($('#row'+rowCount));
-            $('container').prepend($player1Div);
-          }else  if(rowCount>5){
             $($player2Div).append($('#row'+rowCount));
-            $('container').append($player2Div);
+            $('container').prepend($player2Div);
+          }else  if(rowCount>5){
+            $($player1Div).append($('#row'+rowCount));
+            $('container').append($player1Div);
           }
               // Creates squares 1-8 per row, used the row count * 8 to get to next row count + square count in row to get to square counts.
                 for(j=1; j<=8; j++){
@@ -91,29 +114,44 @@ const $nonPlayableSquares = $.merge($('.oddRow').find('div.odd'), $('.evenRow').
 
 
 // ===PIECES: PLAYER STAGING SET UP/ DEFINES PLAYERS PIECES (really player squares) (* pieces in play grouped by player)
-const $player1 = $.merge($('.player1').find($('.oddRow').find('div.even')), $('.player1').find($('.evenRow').find('div.odd')));
-const $player2 = $.merge($('.player2').find($('.oddRow').find('div.even')), $('.player2').find($('.evenRow').find('div.odd')));
+const player1 = $.merge($('.player1').find($('.oddRow').find('div.even')), $('.player1').find($('.evenRow').find('div.odd')));
+const player2 = $.merge($('.player2').find($('.oddRow').find('div.even')), $('.player2').find($('.evenRow').find('div.odd')));
 
-$player1.append($('<img>').attr('src', 'images/wht.jpg'));
-$player2.append($('<img>').attr('src', 'images/blk.jpg'));
+player1.append($('<img>').attr('src', 'images/blk.jpg'));
+player2.append($('<img>').attr('src', 'images/wht.jpg'));
 
-
-
+// console.log($player2);
 //===PIECES:  ===
+
+
 // Initially all pieces in play = player1 and player2 hands... so technically these arrays already exist, just give them a js variable...
-//
 // const $piecesInPlay
-        // const $NotInPlay??  IS THIS NECCESSARY;
+
 
 // player1 [array of all of p1's pieces to apply evalution to...]''
 
-//Playable pieces...
-//
 // Is there any advantage to having these as arrays vs an objects??
 
-//ON CLICK EVENTS HERE
+//====ON CLICK EVENTS HERE
+  $('.square').on('click', (event)=>{
+  console.log( $.inArray(event.currentTarget, player2));
+     // let x = event.currentTarget;
+     // let y = player2[0];
+     // return x === y;
+     // console.log(x); console.log(y); console.log(x===y);
 
-$('.square').on('click', selectPiece);
+
+      // let z = $(event.currentTarget);
+      // let a = $(player2[0]);
+     // console.log(z); console.log(a); console.log(a===z);
+     // WHY DOESN'T THIS WORK???
+
+  });
+
+
+// How should selection be limited?  Based on Turns  So first I need to establish that its player 1's turn.
+//Then i need  that player to be passed through a parameter  and it's peices selected/ turned ON.
+//Then i need the peice clicked to be checked to ensure that they are in the players set of playable peices
   // $('img').on('click', selectDestination);
 //Destination must be Nested... reassign img listener...
 
@@ -134,11 +172,13 @@ $('.square').on('click', selectPiece);
 
 
 //TO DO! Next
-    //8. ADD EVENT HANDELERS Click img OR div... PUT it ON the div so the img inherits it? or limit to the img
+
 // BUILD GAME LOGIC
-    //10. SELECT PIECE event.target/currentTarget...
-    //11. SELECT DESTINATION div event.target/currentTarget...
-    //12. BUILD Evaluation LOGIC
+    //10. Players Turn...
+    //11. SELECT PIECE event.target/currentTarget...
+
+    //12.    SELECT DESTINATION div event.target/currentTarget...
+    // BUILD Evaluation LOGIC
     //13. BUILD Move Piece Function. (is this separate from a jump function?)
     //14. BUILD REMOVE Piece Function.
     //15. Map Game Play
@@ -165,7 +205,7 @@ $('.square').on('click', selectPiece);
 // 5. Append correct Rows to Player Divs
 // 6. Import and assign Player images  ...could do this in board build
 // 7. !!!!CRITICAL FIX ROW COUNT! WILL CHANGE ALL OTHER EVENTS :/
-
+//8. ADD EVENT HANDELERS Click img OR div... PUT it ON the div so the img inherits it? or limit to the img
 
 // random comments
 
