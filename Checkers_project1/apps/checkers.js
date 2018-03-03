@@ -29,13 +29,15 @@ const whichTurn = () =>{
   // !!!Returns playerArray
 }
 
-const validateSelection = (playerArray,event)=>{
-  if($.inArray($(event.currentTarget),$player2)>=0){
+const validateSelection = (player, eventObject)=>{
+console.log(eventObject);
+
+  if($.inArray(event.currentTarget, player)>=0){
     return  $(event.currentTarget)
   }else{
     alert('This is not Your piece.')
   }
-  // selectPiece();
+  selectPiece();
 }
 
 const selectPiece = (event)=>{
@@ -133,8 +135,10 @@ player2.append($('<img>').attr('src', 'images/wht.jpg'));
 // Is there any advantage to having these as arrays vs an objects??
 
 //====ON CLICK EVENTS HERE
-  $('.square').on('click', (event)=>{
-  console.log( $.inArray(event.currentTarget, player2));
+  $('.square').on('click',(event)=>{
+     validateSelection(player2, event.currentTarget);
+  });
+  // console.log( $.inArray(event.currentTarget, player2));
      // let x = event.currentTarget;
      // let y = player2[0];
      // return x === y;
@@ -146,7 +150,7 @@ player2.append($('<img>').attr('src', 'images/wht.jpg'));
      // console.log(z); console.log(a); console.log(a===z);
      // WHY DOESN'T THIS WORK???
 
-  });
+
 
 
 // How should selection be limited?  Based on Turns  So first I need to establish that its player 1's turn.
