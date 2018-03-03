@@ -1,4 +1,6 @@
-*{border: 1px solid gold;}
+*{border: 1px solid gold;
+  color: white;
+}
 
 .container{width: 95%;}
 .row{margin: 0 auto;}
@@ -8,4 +10,19 @@
   height: 100px;
   width:12%;
   margin-left:.25%;
+}
+
+.odd >.odd{
+  background-color: red;
+}
+.odd >.even{
+  background-color: black;
+}
+
+.even>.odd{
+  background-color: black;
+}
+
+.even>.even{
+  background-color: red;
 }
