@@ -11,7 +11,7 @@
   max-height: 1000px;}
 .square{
   display:inline-block;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   height: 100px;
   width:12%;
   margin-left:.25%;
@@ -22,6 +22,7 @@ display: block;
 margin:  0 auto;
 height: 60%;
 width: 60%;
+/* border:none; */
 }
 
 .oddRow >.odd{

@@ -47,8 +47,8 @@ $(()=>{
 
 
       //APPENDS TO PLAYER DIV BUT ORDER MATTERS!!
-  const $player1 =$('<div>').addClass('player1');
-  const $player2 =$('<div>').addClass('player2');
+  const $player1Div =$('<div>').addClass('player1');
+  const $player2Div =$('<div>').addClass('player2');
 
 // ====VARIABLES HERE====
       let squareClass="";
@@ -60,15 +60,13 @@ $(()=>{
       for (let rowCount=1; rowCount<=limit; rowCount++){
           rowClass2=getEvenOdd(rowCount,rowClass2);
           $('container').append($('<div>').addClass('row').addClass(rowClass2+'Row').attr('id','row'+rowCount));
-  // Possibly move to function??
-
-
+// Possibly move to function??
           if( rowCount<=3){
-            $($player1).append($('#row'+rowCount));
-            $('container').prepend($player1);
+            $($player1Div).append($('#row'+rowCount));
+            $('container').prepend($player1Div);
           }else  if(rowCount>5){
-            $($player2).append($('#row'+rowCount));
-            $('container').append($player2);
+            $($player2Div).append($('#row'+rowCount));
+            $('container').append($player2Div);
           }
               // Creates squares 1-8 per row, used the row count * 8 to get to next row count + square count in row to get to square counts.
                 for(j=1; j<=8; j++){
@@ -76,33 +74,43 @@ $(()=>{
                     squareClass2= getEvenOdd(squareCount, squareClass2);
                     $('#row'+rowCount)
                     .append($('<div>')
-                    .addClass('square')
-                    .addClass(squareClass2)
-                    .attr('id',squareCount)
-                    .text(squareCount));
+                        .addClass('square')
+                        .addClass(squareClass2)
+                        .attr('id',squareCount)
+                        .text(squareCount));
                 }   // creates squares 1-8 in each row ,
         }
         //
 
-// ===PLAYER STAGING SET UP
+
+//===SQUARES: PLAYABLE vs NON-PLAYABLE ===
+        //Creating a variable to separate playable/non-playable squares & pieces...
+
+const $playableSquares = $.merge($('.oddRow').find('div.even'), $('.evenRow').find('div.odd'));
+const $nonPlayableSquares = $.merge($('.oddRow').find('div.odd'), $('.evenRow').find('div.even'));
 
 
-$('.player1').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/wht.jpg'));
-$('.player1').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/wht.jpg'));
+// ===PIECES: PLAYER STAGING SET UP/ DEFINES PLAYERS PIECES (really player squares) (* pieces in play grouped by player)
+const $player1 = $.merge($('.player1').find($('.oddRow').find('div.even')), $('.player1').find($('.evenRow').find('div.odd')));
+const $player2 = $.merge($('.player2').find($('.oddRow').find('div.even')), $('.player2').find($('.evenRow').find('div.odd')));
 
-$('.player2').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/blk.jpg'));
-$('.player2').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/blk.jpg'));
+$player1.append($('<img>').attr('src', 'images/wht.jpg'));
+$player2.append($('<img>').attr('src', 'images/blk.jpg'));
 
-// Creating a variable to separate playable/non-playablesquares...
+
+
+//===PIECES:  ===
+// Initially all pieces in play = player1 and player2 hands... so technically these arrays already exist, just give them a js variable...
 //
-//PLAYABLE SQUARES =  $('.oddRow')).find('div.even')
-//                    $('.evenRow')).find('div.odd')
+// const $piecesInPlay
+        // const $NotInPlay??  IS THIS NECCESSARY;
+
+// player1 [array of all of p1's pieces to apply evalution to...]''
+
+//Playable pieces...
 //
-//NON-PLAYABLE SQUARES = $('.oddRow')).find('div.odd')
-//                       $('.evenRow')).find('div.even')
-//
-//
-// $('.player2').find($('.oddRow')).find('div.even')
+// Is there any advantage to having these as arrays vs an objects??
+
 //ON CLICK EVENTS HERE
 
 $('.square').on('click', selectPiece);
@@ -121,6 +129,10 @@ $('.square').on('click', selectPiece);
 })
 
 
+
+
+
+
 //TO DO! Next
     //8. ADD EVENT HANDELERS Click img OR div... PUT it ON the div so the img inherits it? or limit to the img
 // BUILD GAME LOGIC
@@ -129,7 +141,7 @@ $('.square').on('click', selectPiece);
     //12. BUILD Evaluation LOGIC
     //13. BUILD Move Piece Function. (is this separate from a jump function?)
     //14. BUILD REMOVE Piece Function.
-    //
+    //15. Map Game Play
     //*** special considerations for JUMPS! - Jumps ONLY have ONE option for moving NOT TWO! - Maybe best to run the BLANKS TEST 1ST! To eliminate any possibility of moving at all or move on to the LEAST possible options possibility of  jumping.
     //special considerations for boundaries! - any square along the sides of the board ONLY has ONE option for moving, NOT tow
 
@@ -163,3 +175,18 @@ $('.square').on('click', selectPiece);
 //   oddRow.even??  WOULD need to create an object like arrray????? might not be worth the time invested.
 // PARENT/CHILDREN!!!  How can you leverage this relationship??... children would be in an array... loop through next sibling...
 //object. (children.attribute(.id))?
+
+//Why I'm currently adding the event listener to every square:
+// For the current case, I will leave open the possibilty of adding an (annoying) alert function later assuming there's a player may have never played checkers before and will not know that the red squares are not playable...  * May change my mind later if I find this to be absolutely unecesary and unlikely, since the game will come with instructions after all. May be needed for game play....
+
+
+//PLAYER SETUP version 1
+// $('.player1').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/wht.jpg'));
+// $('.player1').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/wht.jpg'));
+//
+// $('.player2').find($('.oddRow')).find('div.even').append($('<img>').attr('src', 'images/blk.jpg'));
+// $('.player2').find($('.evenRow')).find('div.odd').append($('<img>').attr('src', 'images/blk.jpg'));
+
+// ====
+//
+// $('.player2').find($('.oddRow')).find('div.even')
