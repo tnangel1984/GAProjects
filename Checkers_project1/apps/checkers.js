@@ -17,15 +17,32 @@ const getEvenOdd = (countEvaluated, outputClass)=>{
       }  // determines squareClass2 = odd or even
 }
 
+const selectPiece = ()=>{
+        //GET CURRENT POSITION
+}
+
+const selectDestination = (currentPosition)=>{
+        //GET 1st allowables: CurrentID - 7 or CurrentID - 9
+        //CHECK if 1st allowables are Blank
+        // IF SO MOVE TO Selected Destination
+
+        //IF NOT check if  
+
+}
 
 
+const ordainMove = ()=>{
 
+}
 
 
 
 
 // ====ON LOAD & ON CLICK EVENTS HERE====
 $(()=>{
+        $('img').on('click', selectPiece);
+              $('img').on('click', selectDestination);
+//Destination must be Nested... reassign img listener...
 
 // creates a container,  creates player divs, appends to body
       $('body').append($('<container>'));
