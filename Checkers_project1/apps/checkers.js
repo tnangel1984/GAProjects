@@ -2,10 +2,26 @@
 // console.log($);
 
 
+//****LIMIT WHAT THE PLAYER CAN DO TO GUIDE THEM TO THE CORRECT PROGRAM FLOW!
 
 
 
+// 1.click;
+// 2. select piece; confirm
+// 3.click again;<< problem is here... would require a new onClick event assignment... OR could just limit assignment to playable/non playables instead... but means there is no onClick even for the wrong pieces...
+// 4. select destination;
+// 5. Run evaluations
+// 6. Make move(s)
+// 7. Next players turn
+// 8. Loop.
+//  ---- Alternative to changing the eventHandler is to have three separate ones tied to 3 different dynamic arrays that are constanty updating... unless you tie player pieces to images you can re-append the images and the onclick event would always follow.
+// If player & playable   3 arrays constantly beign update...still has to happen
+// If image re-append no changes
+// If total board -reassign once in program float... re-assignment happend each time...
+// Leaves open to many useless possibilities for clicking squares. Limit users control flow and for game progression.
 
+
+//NEED TO MAP GAME PLAY IN GREATER DETAIL!
 
 // ====FUNCTIONS HERE====
 
@@ -30,14 +46,16 @@ const whichTurn = () =>{
 }
 
 const validateSelection = (player, eventObject)=>{
-console.log(eventObject);
 
-  if($.inArray(event.currentTarget, player)>=0){
-    return  $(event.currentTarget)
-  }else{
-    alert('This is not Your piece.')
-  }
-  selectPiece();
+    if($.inArray(event.currentTarget, player)>=0){
+      //give currentTarget a glow..
+      //change onclick event to pull destination
+      console.log($(event.currentTarget));
+      return  $selctionDiv =$(event.currentTarget)
+
+    }else{
+      alert('This is not Your piece.')
+    }
 }
 
 const selectPiece = (event)=>{
@@ -46,7 +64,16 @@ const selectPiece = (event)=>{
         console.log($('event.CurrentTarget'));
 }
 
-const selectDestination = (currentPosition)=>{
+const selectDestination = ()=>{
+  console.log('is anything happening?');
+  // check if img is appended
+    if(event.currentTarget.children === $('img')){
+      console.log("You cannot move here this place is taken");
+    }else{
+      console.log('no img- execute evaluation');
+      return $destinatonDiv = event.currentTarget;
+    }
+
         //GET 1st allowables: CurrentID - 7 or CurrentID - 9
         //CHECK if 1st allowables are Blank
         // IF SO MOVE TO Selected Destination
@@ -56,11 +83,36 @@ const selectDestination = (currentPosition)=>{
 }
 
 
-const ordainMove = ()=>{
+const ordainMove = (player)=>{
+  // ***OFF BOARD RESTRICTIONS NEED TO HAPPEN HERE ON THE OUTSIDE
 
+//Lists possible 1st moves... Doesn't change...
+    if(player === $player2){//<<<--- NEED to diistinguihs between p1 & p2
+        P2MoveLeft =$selection.attr('id')+7;
+        P2MoveRight =$selection.attr('id')+9;
+        P2JumpLeft =$selection.attr('id')+14;
+        P2JumpRight =$selection.attr('id')+18;
+
+    }else{
+        P1MoveLeft =$selection.attr('id')-9;
+        P1MoveRight=$selection.attr('id')-7;
+        P2JumpRight =$selection.attr('id')-18;
+        P2JumpLeft =$selection.attr('id')-14;
+    }
+//checks that destination selected is within range of allowable moves, then calls move.
+    if($destionationDiv=== P2MoveLeft ||  $destionationDiv=== P2MoveRight){
+       //EXCUTE MOVE!
+    }else if($destionationDiv=== P2JumpLeft ||  $destionationDiv=== P2JumpRight){
+      //CONFIRM THAT AN OPPONENT PIECE IS IN  MOVELEFT/MOVE RIGHT
+      //EXECUTE MOVE
+    }
 }
 
-
+const MOVE = (playerImage)=>{
+  $($destionationDiv).append($'<img>').attr('src', playerImage)
+  // NEED TO PASS PLAYER IMAGE INTO  A VARIABLE FOR USE HERE AND FOR PIEE SELECTIONS!
+  // Could have an array of images to choos from not just red black and white.
+}
 
 
 // ====ON LOAD EVENTS HERE====
@@ -114,13 +166,14 @@ $(()=>{
 const $playableSquares = $.merge($('.oddRow').find('div.even'), $('.evenRow').find('div.odd'));
 const $nonPlayableSquares = $.merge($('.oddRow').find('div.odd'), $('.evenRow').find('div.even'));
 
-
+const $openSquares = $.merge($('#row4').find('div.odd'),$('#row5').find('div.even'));
+console.log($openSquares);
 // ===PIECES: PLAYER STAGING SET UP/ DEFINES PLAYERS PIECES (really player squares) (* pieces in play grouped by player)
-const player1 = $.merge($('.player1').find($('.oddRow').find('div.even')), $('.player1').find($('.evenRow').find('div.odd')));
-const player2 = $.merge($('.player2').find($('.oddRow').find('div.even')), $('.player2').find($('.evenRow').find('div.odd')));
+const $player1 = $.merge($('.player1').find($('.oddRow').find('div.even')), $('.player1').find($('.evenRow').find('div.odd')));
+const $player2 = $.merge($('.player2').find($('.oddRow').find('div.even')), $('.player2').find($('.evenRow').find('div.odd')));
 
-player1.append($('<img>').attr('src', 'images/blk.jpg'));
-player2.append($('<img>').attr('src', 'images/wht.jpg'));
+$player1.append($('<img>').attr('src', 'images/blk.jpg'));
+$player2.append($('<img>').attr('src', 'images/wht.jpg'));
 
 // console.log($player2);
 //===PIECES:  ===
@@ -135,8 +188,17 @@ player2.append($('<img>').attr('src', 'images/wht.jpg'));
 // Is there any advantage to having these as arrays vs an objects??
 
 //====ON CLICK EVENTS HERE
-  $('.square').on('click',(event)=>{
-     validateSelection(player2, event.currentTarget);
+
+  ($player2).on('click',(event)=>{
+     validateSelection($player2, event.currentTarget);
+       ($player2).off();//<<< NEED TO BE ABLE TO TOGGLE SELECT -DESELECCT IF PLYAER CHANGES MIND!!!
+
+     ($($openSquares)).on('click',(event)=>{
+          selectDestination();
+
+     })
+     // selectPiece();
+
   });
   // console.log( $.inArray(event.currentTarget, player2));
      // let x = event.currentTarget;
@@ -180,7 +242,7 @@ player2.append($('<img>').attr('src', 'images/wht.jpg'));
 // BUILD GAME LOGIC
     //10. Players Turn...
     //11. SELECT PIECE event.target/currentTarget...
-
+//<<< NEED TO BE ABLE TO TOGGLE SELECT -DESELECCT IF PLYAER CHANGES MIND!!!
     //12.    SELECT DESTINATION div event.target/currentTarget...
     // BUILD Evaluation LOGIC
     //13. BUILD Move Piece Function. (is this separate from a jump function?)
